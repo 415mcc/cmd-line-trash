@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SUCCESSMSG="Trash emptied successfully\n"
+
+if [[ -d ~/.TrashBin ]]; then
+	rm -r ~/.TrashBin
+	mkdir ~/.TrashBin
+else
+	mkdir ~/.TrashBin
+fi
+
+if [[ -d ~/.TrashBinInfo ]]; then
+	rm -r ~/.TrashBinInfo
+	mkdir ~/.TrashBinInfo
+else
+	mkdir ~/.TrashBinInfo
+fi
+
+printf "$SUCCESSMSG"

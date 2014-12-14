@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if (( $# != 1 )); then
+	echo "Usage: put-trash-back FILE"
+	exit 1
+fi
+
+if [[ ! -d ~/.TrashBin ]] || [[ ! -d ~/.TrashBinInfo ]]; then
+	mkdir ~/.TrashBin
+	mkdir ~/.TrashBinInfo
+fi
+
+if [[ -e ~/.TrashBin/"$1" ]]; then
+	if [[ -e ~/.TrashBinInfo/."$1".trashinfo ]]; then
+		PUTBACK=`cat ~/.TrashBinInfo/."$1".trashinfo`
+		mv ~/.TrashBin/"$1" $PUTBACK
+		echo "File "$1" put back as "$PUTBACK""
+	else
+		mv ~/.TrashBin/"$1" ~/
+		echo "Couldn't find info file"
+		echo "File "$1" put back into home directory"
+	fi
+else
+	echo "File "$1" is not in the trash"
+fi

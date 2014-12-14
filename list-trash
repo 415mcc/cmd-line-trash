@@ -1,0 +1,17 @@
+#!/bin/bash
+
+EMPTYMSG="Trash is empty\n"
+
+if [[ ! -d ~/.TrashBinInfo ]]; then mkdir ~/.TrashBinInfo; fi
+
+if [[ -d ~/.TrashBin  ]]; then
+  cd ~/.TrashBin
+  if [[ `ls -A` == "" ]]; then
+    printf "$EMPTYMSG"
+  else
+    ls -A
+  fi
+else
+  mkdir ~/.TrashBin
+  printf "$EMPTYMSG"
+fi
