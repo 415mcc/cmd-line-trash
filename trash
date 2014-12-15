@@ -1,24 +1,32 @@
 #!/bin/bash
 
-if (( $# != 1 )); then
+if (( $# < 1 )); then
 	echo "Usage: trash FILE"
 	exit 1
 fi
 
-if [[ ! -d ~/.TrashBin ]] || [[ ! -d ~/.TrashBinInfo ]]; then
-	mkdir ~/.TrashBin
-	mkdir ~/.TrashBinInfo
-fi
+PREFIX="[trash] "
 
-if [[ -e $1 ]]; then
-	mv $1 ~/.TrashBin/
-	BASENAME=`basename "$1"`
-	DIRNAME=`dirname "$1"`
-	cd "$DIRNAME"
-	PWD=`pwd`
-	FULLPATH="$PWD/$BASENAME"
-	echo $FULLPATH > ~/.TrashBinInfo/."$BASENAME".trashinfo
-	echo "Moved to trash"
-else
-	echo "File "$1" does not exist"
-fi
+function trashfunc {
+	if [[ ! -d ~/.TrashBin ]] || [[ ! -d ~/.TrashBinInfo ]]; then
+		mkdir ~/.TrashBin
+		mkdir ~/.TrashBinInfo
+	fi
+
+	if [[ -e $1 ]]; then
+		mv $1 ~/.TrashBin/
+		BASENAME=`basename "$1"`
+		DIRNAME=`dirname "$1"`
+		cd "$DIRNAME"
+		PWD=`pwd`
+		FULLPATH="$PWD/$BASENAME"
+		echo $FULLPATH > ~/.TrashBinInfo/."$BASENAME".trashinfo
+		echo "$PREFIX""File "$1" moved to trash"
+	else
+		echo "$PREFIX""File "$1" does not exist"
+	fi
+}
+
+for i in "$@"; do
+	trashfunc $i
+done
