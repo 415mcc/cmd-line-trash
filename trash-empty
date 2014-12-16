@@ -1,5 +1,9 @@
 #!/bin/bash
 
+PREFIX="[trash] "
+function printwith {
+	printf "$PREFIX$1"
+}
 SUCCESSMSG="Trash emptied successfully\n"
 
 if [[ -d ~/.TrashBin ]]; then
@@ -16,4 +20,4 @@ else
 	mkdir ~/.TrashBinInfo
 fi
 
-printf "$SUCCESSMSG"
+printwith "$SUCCESSMSG"

@@ -1,7 +1,12 @@
 #!/bin/bash
 
+PREFIX="[trash] "
+function printwith {
+	printf "$PREFIX$1\n"
+}
+
 if (( $# != 1 )); then
-	echo "Usage: trash-putback FILE"
+	printwith "Usage: trash-putback FILE"
 	exit 1
 fi
 
@@ -13,13 +18,13 @@ fi
 if [[ -e ~/.TrashBin/"$1" ]]; then
 	if [[ -e ~/.TrashBinInfo/."$1".trashinfo ]]; then
 		PUTBACK=`cat ~/.TrashBinInfo/."$1".trashinfo`
-		mv ~/.TrashBin/"$1" $PUTBACK
-		echo "File "$1" put back as "$PUTBACK""
+		mv ~/.TrashBin/"$1" $PUTBACK && rm ~/.TrashBinInfo/."$1".trashinfo &&
+		printwith "File "$1" put back as "$PUTBACK""
 	else
-		mv ~/.TrashBin/"$1" ~/
-		echo "Couldn't find info file"
-		echo "File "$1" put back into home directory"
+		mv ~/.TrashBin/"$1" ~/ &&
+		printwith "Couldn't find info file" &&
+		printwith "File "$1" put back into home directory"
 	fi
 else
-	echo "File "$1" is not in the trash"
+	printwith "File "$1" is not in the trash"
 fi

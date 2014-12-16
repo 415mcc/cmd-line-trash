@@ -1,5 +1,9 @@
 #!/bin/bash
 
+PREFIX="[trash] "
+function printwith {
+    printf "$PREFIX$1"
+}
 EMPTYMSG="Trash is empty\n"
 
 if [[ ! -d ~/.TrashBinInfo ]]; then mkdir ~/.TrashBinInfo; fi
@@ -7,11 +11,11 @@ if [[ ! -d ~/.TrashBinInfo ]]; then mkdir ~/.TrashBinInfo; fi
 if [[ -d ~/.TrashBin  ]]; then
   cd ~/.TrashBin
   if [[ `ls -A` == "" ]]; then
-    printf "$EMPTYMSG"
+    printwith "$EMPTYMSG"
   else
     ls -A
   fi
 else
   mkdir ~/.TrashBin
-  printf "$EMPTYMSG"
+  printwith "$EMPTYMSG"
 fi

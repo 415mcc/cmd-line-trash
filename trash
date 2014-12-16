@@ -6,6 +6,9 @@ if (( $# < 1 )); then
 fi
 
 PREFIX="[trash] "
+function printwith {
+	echo "$PREFIX$1"
+}
 
 function trashfunc {
 	if [[ ! -d ~/.TrashBin ]] || [[ ! -d ~/.TrashBinInfo ]]; then
@@ -21,9 +24,9 @@ function trashfunc {
 		PWD=`pwd`
 		FULLPATH="$PWD/$BASENAME"
 		echo $FULLPATH > ~/.TrashBinInfo/."$BASENAME".trashinfo
-		echo "$PREFIX""File "$1" moved to trash"
+		printwith "File "$1" moved to trash"
 	else
-		echo "$PREFIX""File "$1" does not exist"
+		printwith "File "$1" does not exist"
 	fi
 }
 
